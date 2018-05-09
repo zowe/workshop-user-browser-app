@@ -1,0 +1,21 @@
+{
+  "RocketSoftwareCopyright_Header" : [
+    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
+    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
+    ""],
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "baseUrl": "",
+    "types": []
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+  ,"RocketSoftwareCopyright_Footer" : [
+    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
+    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
+    ""]
+}

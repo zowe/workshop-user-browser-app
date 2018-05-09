@@ -1,0 +1,52 @@
+
+.userbrowser-spinner-position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.wide-button {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  width: 100%;
+}
+
+.height-40 {
+  height: 40px;
+}
+
+.userbrowser-vertical-scroll {
+  overflow-y: auto;
+}
+
+/* flexbox styles */
+.parent {
+  display: -webkit-flex;
+  flex-direction: column;
+  align-content: flex-start;
+  height: 100%;
+  overflow-y: hidden;
+  margin: auto;
+}
+
+.container {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
+.fixed-height-child {
+  /*order: 1;*/
+  flex: 0 0 auto;
+  align-self: auto;
+}
+
+.variable-height-child {
+  order: 1;
+  min-height: 100px;
+  flex: 1 1 auto;
+}
