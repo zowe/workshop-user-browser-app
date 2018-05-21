@@ -1,3 +1,8 @@
+/*
+  © 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
+  ROCKET SOFTWARE, INC. CONFIDENTIAL
+*/
+
 export const metadata = {
   columnMetaData: [
     {
@@ -105,3 +110,8 @@ export const rows = [
   ['Fabiola','A','Mastin','FabiolaAMastin@teleworm.us','WA','IT'],
   ['Scott','T','Schenck','ScottTSchenck@rhyta.com','WA','IT']
 ];
+
+/*
+  © 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
+  ROCKET SOFTWARE, INC. CONFIDENTIAL
+*/
