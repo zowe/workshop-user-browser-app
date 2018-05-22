@@ -26,7 +26,8 @@ So, let's get started!
 1. [Adding your First Widget](#adding-your-first-widget)
     1. [Adding your Dataservice to the App](#adding-your-dataservice-to-the-app)
     1. [Introducing ZLUX Grid](#introducing-zlux-grid)
-1. Adding Zoe App-to-App communication
+1. [Adding Zoe App-to-App Communication](#adding-zoe-app-to-app-communication)
+    1. [Calling back to the Starter App](#calling-back-to-the-starter-app)
 
 ## Constructing an App Skeleton
 If you look within this repository, you'll see that a few boilerplate files already exist to help you get your first App running quickly. The structure of this repository follows the guidelines for Zoe App filesystem layout, which you can read more about [on this wiki](https://github.com/gizafoundation/zlux/wiki/ZLUX-App-filesystem-structure) if you need.
@@ -85,6 +86,7 @@ Fill in each file with the following contents.
 ```import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { UserBrowserComponent } from './userbrowser-component';
 
@@ -130,6 +132,7 @@ export class UserBrowserComponent implements OnInit, AfterViewInit {
 
   constructor(
     private element: ElementRef,
+    private http: Http,
     @Inject(Angular2InjectionTokens.LOGGER) private log: ZLUX.ComponentLogger,
     @Inject(Angular2InjectionTokens.PLUGIN_DEFINITION) private pluginDefinition: ZLUX.ContainerPluginDefinition,    
     @Inject(Angular2InjectionTokens.WINDOW_ACTIONS) private windowAction: Angular2PluginWindowActions,
@@ -210,6 +213,7 @@ While a package.json can be created through other means such as `npm init` and p
 Now we're really ready to build.
 Let's set up our system to automatically perform these steps every time we make updates to the App.
 1. Open up a command prompt to `workshop-user-browser-app/webClient`
+1. Execute `npm install`
 1. Execute `npm run-script start`
 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zoe App Server.
@@ -362,6 +366,7 @@ This REST API now allows for two GET calls to be made: one to root /, and the ot
 Now that the Dataservice is made, we need to add it to our Plugin's defintion so that the server is aware of it, and build it so that the server can run it.
 
 1. Open up a (third) command prompt to `workshop-user-browser-app/nodeServer`
+1. Install dependencies, `npm install`
 1. Invoke the NPM build process, `npm run-script start`
     1. If there are any errors, go back to [building the dataservice](#building-your-first-dataservice) and make sure the files look correct.
 1. Edit `workshop-user-browser-app/pluginDefinition.json`, adding a new attribute which declares Dataservices.
@@ -421,7 +426,7 @@ http://wal-l-sg04:12360/ZLUX/plugins/com.rs.mvd/web/index.html
 Now that you can get this data from the server's new REST API, we need to make improvements to the web content of the App to visualize this. This means not only calling this API from the App, but presenting it in a way that is easy to read and extract info from.
 
 ### Adding your Dataservice to the App
- Let's make some edits to **userbrowser-component.ts**, replacing the **UserBrowserComponent** Class's **ngOnInit** method with a call to get the user table.
+ Let's make some edits to **userbrowser-component.ts**, replacing the **UserBrowserComponent** Class's **ngOnInit** method with a call to get the user table, and defining ngAfterViewInit:
 
 ```
   ngOnInit(): void {
@@ -446,7 +451,23 @@ Now that you can get this data from the server's new REST API, we need to make i
       }
     );
     },100);
-}
+  }
+
+  ngAfterViewInit(): void {
+    // the flex table div is not on the dom at this point
+    // have to calculate the height for the table by subtracting all
+    // the height of all fixed items from their container
+    let fixedElems = this.element.nativeElement.querySelectorAll('div.include-in-calculation');
+    let height = 0;
+    fixedElems.forEach(function (elem, i) {
+      height += elem.clientHeight;
+    });
+    this.windowEvents.resized.subscribe(() => {
+      if (this.grid) {
+        this.grid.updateRowsPerPage();
+      }
+    });
+  }
 ```
 
 You may have noticed that we're referring to several instance variables that we haven't declared yet. Let's add those within the **UserBrowserComponent** Class too, above the constructor.
@@ -467,9 +488,203 @@ Hopefully you are still running the command in the first command prompt, `npm ru
 ### Introducing ZLUX Grid
 When **ngOnInit** runs, it will call out to the REST Dataservice and put the table row results into our cache, but we haven't yet visualized this in any way. We need to improve our HTML a bit to do that, and rather than reinvent the wheel, we luckily have a table vizualization library we can rely on - **ZLUX Grid**
 
+If you inspect `package.json` in the **webClient** folder, you'll see that we've already included @zlux/grid as a dependency - as a link to one of the Zoe github repositories, so it should have been pulled into the **node_modules** folder during the `npm install` operation. We just need to include it in the Angular code to make use of it. This comes in two steps:
+
+1. Edit **webClient/src/app/userbrowser.module.ts**, adding import statements for the zlux widgets above and within the @NgModule statement:
+```
+import { ZluxGridModule } from '@zlux/grid';
+import { ZluxPopupWindowModule, ZluxButtonModule } from '@zlux/widgets'
+//...
+@NgModule({
+imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule, ZluxGridModule, ZluxPopupWindowModule, ZluxButtonModule],
+//...
+```
+
+The full file should now be:
+```
+*
+  This Angular module definition will pull all of your Angular files together to form a coherent App
+*/
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { ZluxGridModule } from '@zlux/grid';
+import { ZluxPopupWindowModule, ZluxButtonModule } from '@zlux/widgets'
+
+import { UserBrowserComponent } from './userbrowser-component';
+
+@NgModule({
+  imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule, ZluxGridModule, ZluxPopupWindowModule, ZluxButtonModule],
+  declarations: [UserBrowserComponent],
+  exports: [UserBrowserComponent],
+  entryComponents: [UserBrowserComponent]
+})
+export class UserBrowserModule { }
+```
+
+2. Edit **userbrowser-component.html** within the same folder. Previously, it was just meant for presenting a Hello World message, so we should add some style to accomodate the zlux-grid element we will also add to this template via a tag.
+```
+<!-- In this HTML file, an Angular Template should be placed that will work together with your Angular Component to make a dynamic, modern UI -->
+
+<div class="parent col-11" id="userbrowserPluginUI">
+  <div class="fixed-height-child include-in-calculation">
+      <button type="button" class="wide-button btn btn-default" value="Send">
+        Submit Selected Users
+      </button>
+  </div>
+  <div class="fixed-height-child height-40" *ngIf="!showGrid && !viewConfig">
+    <div class="">
+      <p class="alert-danger">{{error_msg}}</p>
+    </div>
+  </div>
+  <div class="container variable-height-child" *ngIf="showGrid">
+    <zlux-grid [columns]="columnMetaData | zluxTableMetadataToColumns"
+    [rows]="rows"
+    [paginator]="true"
+    selectionMode="multiple"
+    selectionWay="checkbox"
+    [scrollableHorizontal]="true"
+    (selectionChange)="onTableSelectionChange($event)"
+    #grid></zlux-grid>
+  </div>
+  <div class="fixed-height-child include-in-calculation" style="height: 20px; order: 3"></div>
+</div>
+
+<div class="userbrowser-spinner-position">
+  <i class="fa fa-spinner fa-spin fa-3x" *ngIf="resultNotReady"></i>
+</div>
+```
+
+Note the key functions of this template: 
+* There's a button which when clicked will submit selected users (from the grid). We will implement this ability later.
+* We show or hide the grid based on a variable `ngIf="showGrid"` so that we can wait to show the grid until there is data to present
+* The zlux-grid tag pulls the ZLUX Grid widget into our App, and it has many variables that can be set for visualization, as well as functions and modes.
+    * We allow the columns, rows, and metadata to be set dynamically by using the square bracket [ ] template syntax, and allow our code to be informed when the user selection of rows changes via `(selectionChange)="onTableSelectionChange($event)"`
+    
+3. Small modification to **userbrowser-component.ts** to add the grid variable, and set up the aforementioned table selection event listener, both within the **UserBrowserComponent** Class:
+```
+@ViewChild('grid') grid; //above the constructor
+
+onTableSelectionChange(rows: any[]):void{
+    this.selectedRows = rows;
+}
+```
+
+The previous section, [Adding your Dataservice to the App](#adding-your-dataservice-to-the-app) set the variables that are fed into the ZLUX Grid widget, so at this point the App should be updated with the ability to present a list of users in a grid.
+
+If you are still running `npm run-script start` in a command prompt, it should now show that the App has been successfully built, and that means we are ready to see the results. Reload your browser's webpage and open the user browser App once more... Do you see the list of users in columns and rows that can be sorted and selected? If so, great, you've built a simple yet useful App within Zoe! Let's move on to the last portion of the App workshop where we hook the Starter App and the User Browser App together to accomplish a task.
 
 
+## Adding Zoe App-to-App Communication
+Apps in Zoe can be useful and provide insight all by themselves, but a big part of using the Zoe Desktop is that Apps are able to keep track of and share context by user interaction in order to accomplish a complex task by simple and intuitive means by having the foreground App request an App best suited for a task to accomplish that task with some context as to the data & purpose.
 
+In the case of this Workshop, we're trying to not just find a list of employees in a company (as was accomplished in the last step where the Grid was added and populated with the REST API), but to filter that list to find those employees who are best suited to the task we need done. So, our user browser App needs to be enhanced with two new abilities:
+* Filter the user list to show only those users that meet the filter
+* Send the subset of users selected in the list back to the App that requested a user list.
+
+How do we do either task? App-to-App communication! Apps can communicate with other Apps in a few ways, but can be categorized into two interaction groups:
+1. Launching an App with a context of what it should do
+1. Messaging an App that's already open to request or alert it of something
+
+In either case, the App framework provides Actions as the objects to perform the communication. Actions not only define what form of communication should happen, but between which Apps. Actions are issued from one App, and are fulfilled by a target App. But, because there may be more than one instance/window of an App open, there are Target Modes:
+* Open a new App window, where the message context is delivered in the form of a Launch Context
+* Message a particular, or any of the currently open instances of the target App
+
+We've already done the work of setting up the App's HTML and Angular definitions, so in order to make our App compatible with App-to-App communication, it only needs to listen for, act upon, and issue Zoe App Actions. Let's make edits to the typescript component to do that. Edit the **UserBrowserComponent** Class's constructor within **userbrowser-component.ts** in order to listen for the launch context:
+
+```
+  constructor(
+    private element: ElementRef,
+    private http: Http,
+    @Inject(Angular2InjectionTokens.LOGGER) private log: ZLUX.ComponentLogger,
+    @Inject(Angular2InjectionTokens.PLUGIN_DEFINITION) private pluginDefinition: ZLUX.ContainerPluginDefinition,    
+    @Inject(Angular2InjectionTokens.WINDOW_ACTIONS) private windowAction: Angular2PluginWindowActions,
+    @Inject(Angular2InjectionTokens.WINDOW_EVENTS) private windowEvents: Angular2PluginWindowEvents,
+    //Now, if this is not null, we're provided with some context of what to do on launch.
+    @Inject(Angular2InjectionTokens.LAUNCH_METADATA) private launchMetadata: any,
+  ) {
+    this.log.info(`User Browser constructor called`);
+    
+    //NOW: if provided with some startup context, act upon it... otherwise just load all.
+    //Step: after making the grid... we add this to show that we can instruct an app to narrow its scope on open
+    this.log.info(`Launch metadata provided=${JSON.stringify(launchMetadata)}`);
+    if (launchMetadata != null && launchMetadata.data) {
+    /* The message will always be an Object, but format can be specific. The format we are using here is in the Starter App: 
+      https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L177
+    */    
+      switch (launchMetadata.data.type) {
+      case 'load':
+        if (launchMetadata.data.filter) {
+          this.filter = launchMetadata.data.filter;
+        }
+        break;
+      default:
+        this.log.warn(`Unknown launchMetadata type`);
+      }
+    } else {
+      this.log.info(`Skipping launching in a context due to missing or malformed launchMetadata object`);
+    }
+}
+
+```
+
+Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which is a web-framework-independent way to allow the Zoe Apps to register for event listening of Actions.
+
+```
+  /* 
+  I expect a JSON here, but the format can be specific depending on the Action - see the Starter App to see the format that is sent for the Workshop: 
+  https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
+  */
+  zluxOnMessage(eventContext: any): Promise<any> {
+    return new Promise((resolve,reject)=> {
+      if (!eventContext || !eventContext.data) {
+        return reject('Event context missing or malformed');
+      }
+      switch (eventContext.data.type) {
+      case 'filter':
+        let filterParms = eventContext.data.parameters;
+        this.log.info(`Messaged to filter table by column=${filterParms.column}, value=${filterParms.value}`);
+
+        for (let i = 0; i < this.columnMetaData.columnMetaData.length; i++) {
+          if (this.columnMetaData.columnMetaData[i].columnIdentifier == filterParms.column) {
+            //ensure it is a valid column
+            this.rows = this.unfilteredRows.filter((row)=> {
+              if (row[filterParms.column]===filterParms.value) {
+                return true;
+              } else {
+                return false;
+              }
+            });           
+            break;
+          }
+        }
+        resolve();
+        break;
+      default:
+        reject('Event context missing or unknown data.type');
+      };
+    });    
+  }
+
+
+  provideZLUXDispatcherCallbacks(): ZLUX.ApplicationCallbacks {
+    return {
+      onMessage: (eventContext: any): Promise<any> => {
+        return this.zluxOnMessage(eventContext);
+      }      
+    }
+}
+
+```
+
+
+At this point, the App should build successfully and upon reloading the Zoe page in your browser, you should see that if you open the Starter App (App with the green S), that clicking the "Find Users from Lookup Directory" button should open up the User Browser App with a smaller, filtered list of employees rather than the unfiltered list we see if opening the App manually.
+We can also see that once this App has been opened, the Starter App's button, "Filter Results to Those Nearby", becomes enabled and we can click that to see the open User Browser App's listing become filtered even more, this time using the browsers [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation) to instruct the User Browser App to filter to those employees who are closest to you!
+
+### Calling back to the Starter App
+We're close to finished now - the App can vizualize data from a REST API, and can be instructed by other Apps to filter that data according to the situation. But, in order to complete this workshop, we need the App communication to go in the other direction - inform the Starter App which employees you have chosen in the table!
 
 © 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
 ROCKET SOFTWARE, INC. CONFIDENTIAL
