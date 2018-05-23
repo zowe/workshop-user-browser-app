@@ -686,5 +686,63 @@ We can also see that once this App has been opened, the Starter App's button, "F
 ### Calling back to the Starter App
 We're close to finished now - the App can vizualize data from a REST API, and can be instructed by other Apps to filter that data according to the situation. But, in order to complete this workshop, we need the App communication to go in the other direction - inform the Starter App which employees you have chosen in the table!
 
+This time, we will edit **provideZLUXDispatcherCallbacks** to issue Actions rather than to listen for them. We need to target the Starter App, since it is the App that expects to receive a message about which employees should be assigned a task. If that App is given an employee listing that contains employees with the wrong job titles, the operation will be rejected as invalid, so we can ensure that we get the right result through a combination of filtering and sending a subset of the filtered users back to the starter App.
+
+Add a private instance variable to the **UserBrowserComponent** Class.
+```
+ private submitSelectionAction: ZLUX.Action; 
+```
+
+Then, create the Action template within the constructor
+```
+    this.submitSelectionAction = RocketMVD.dispatcher.makeAction(
+      "org.openmainframe.zoe.workshop-user-browser.actions.submitselections",      
+      "Sorts user table in App which has it",
+      RocketMVD.dispatcher.constants.ActionTargetMode.PluginFindAnyOrCreate,
+      RocketMVD.dispatcher.constants.ActionType.Message,
+      "org.openmainframe.zoe.workshop-starter",
+      {data: {op:'deref',source:'event',path:['data']}}
+);
+```
+
+So, we've made an Action which targets an open window of the Starter App, and provides it with an Object with a data attribute.
+We'll populate this object for the message to send to the App by getting the results from ZLUX Grid (`this.selectedRows` will be populated from `this.onTableSelectionChange`).
+
+For the final change to this file, add a new method to the Class:
+```
+  submitSelectedUsers() {
+    let plugin = RocketMVD.PluginManager.getPlugin("org.openmainframe.zoe.workshop-starter");
+    if (!plugin) {
+      this.log.warn(`Cannot request Workshop Starter App... It was not in the current environment!`);
+      return;
+    }
+
+    RocketMVD.dispatcher.invokeAction(this.submitSelectionAction,
+      {'data':{
+         'type':'loadusers',
+         'value':this.selectedRows
+      }}
+    );
+}
+```
+
+And we'll invoke this via a button click action, which we will add into the Angular template, **userbrowser-component.html**, by changing the button tag for "Submit Selected Users" to:
+```
+<button type="button" class="wide-button btn btn-default" (click)="submitSelectedUsers()" value="Send">
+```
+
+Check that the App builds successfully, and if so, you've built the App for the workshop! Try it out:
+
+1. Open the Starter App
+1. Click the "Find Users from Lookup Directory" button
+    1. You should see a filtered list of users in your user App
+1. Click the "Filter Results to Those Nearby" button on the Starter App
+    1. You should now see the list be filtered further to include only one geography.
+1. Select some users to send back to the Starter App
+1. Click the "Submit Selected Users" button on the User Browser App
+    1. The Starter App should print a confirmation message indicating success
+    
+And that's it! Looking back at the beginning of this document, you should notice that we've covered all aspects of App building - REST APIs, persistent settings storage, Creating Angular Apps and using Widgets within them, as well as having one App communicate with another. Hopefully you have learned a lot about App building from this experience, but if you have questions or want to learn more, please reach out to those in the Giza Foundation so that we can assist.
+
 © 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
 ROCKET SOFTWARE, INC. CONFIDENTIAL
