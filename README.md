@@ -419,7 +419,6 @@ Your full pluginDefinition.json should now be:
 There's a few interesting attributes about the Dataservice we have specified here. First is that it is listed as `type: router`, which is because there are different types of Dataservices that can be made to suit the need. Second, the **name** is **table**, which determines both the name seen in logs but also the URL this can be accessed at. Finally, **fileName** and **routerFactory** point to the file within `workshop-user-browser-app/lib` where the code can be invoked, and the function that returns the ExpressJS Router, respectively.
 
 4. [Restart the server](#adding-your-app-to-the-desktop) (as was done when adding the App initially) to load this new Dataservice. This is not always needed but done here for educational purposes.
-http://wal-l-sg04:12360/ZLUX/plugins/com.rs.mvd/web/index.html
 5. Access `https://host:port/ZLUX/plugins/org.openmainframe.zoe.workshop-user-browser/services/table/` to see the Dataservice in action. It should return all the rows in the user table, as you did a GET to the root / URL that we just coded.
 
 ## Adding your First Widget
