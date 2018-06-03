@@ -231,7 +231,7 @@ Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmain
 ```
 {
   "identifier": "org.openmainframe.zoe.workshop-user-browser",
-  "pluginLocation": "../../workshop-user-browser"
+  "pluginLocation": "../../workshop-user-browser-app"
 }
 ```
 
