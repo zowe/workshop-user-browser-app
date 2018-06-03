@@ -83,7 +83,8 @@ At first, let's just build a shell of an App that can display some simple conten
 Fill in each file with the following contents.
 
 **userbrowser.module.ts**
-```import { NgModule } from '@angular/core';
+```
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -114,6 +115,7 @@ export class UserBrowserModule { }
 ```
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, Inject, SimpleChange } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
@@ -158,7 +160,7 @@ export class UserBrowserComponent implements OnInit, AfterViewInit {
 At this time, we've made the source for a Zoe App that should open up in the Desktop with a greeting to the planet.
 Before we're ready to use it however, we have to transpile the typescript and package the App. This will require a few build tools first. We'll make an NPM package in order to facilitate this.
 
-Let's create a package.json file within `workshop-user-browser-app/webClient`.
+Let's create a **package.json** file within `workshop-user-browser-app/webClient`.
 While a package.json can be created through other means such as `npm init` and packages can be added via commands such as `npm install --save-dev typescript@2.8.3`, we'll opt to save time by just pasting these contents in:
 ```
 {
