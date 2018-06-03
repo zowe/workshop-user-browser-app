@@ -291,6 +291,8 @@ class UserTableDataservice {
   getRouter():Router{
     return this.router;
   }
+  
+}
 
 exports.tableRouter = function(context): Router {
   return new Promise(function(resolve, reject) {
