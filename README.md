@@ -395,6 +395,16 @@ Your full pluginDefinition.json should now be:
   "apiVersion": "0.8.1",
   "pluginVersion": "0.0.1",
   "pluginType": "application",
+  "dataServices": [
+      {
+        "type": "router",
+        "name": "table",
+        "serviceLookupMethod": "external",
+        "fileName": "tablehandler.js",
+        "routerFactory": "tableRouter",
+        "dependenciesIncluded": true
+      }
+  ],
   "webContent": {
     "framework": "angular2",
     "launchDefinition": {
@@ -409,17 +419,7 @@ Your full pluginDefinition.json should now be:
       "width": 1300,
       "height": 500
     }
-  },
-  "dataServices": [
-    {
-      "type": "router",
-      "name": "table",
-      "serviceLookupMethod": "external",
-      "fileName": "usertables.js",
-      "routerFactory": "tableRouter",
-      "dependenciesIncluded": true
-    }
-  ]
+  }
 }
 ```
 There's a few interesting attributes about the Dataservice we have specified here. First is that it is listed as `type: router`, which is because there are different types of Dataservices that can be made to suit the need. Second, the **name** is **table**, which determines both the name seen in logs but also the URL this can be accessed at. Finally, **fileName** and **routerFactory** point to the file within `workshop-user-browser-app/lib` where the code can be invoked, and the function that returns the ExpressJS Router, respectively.
