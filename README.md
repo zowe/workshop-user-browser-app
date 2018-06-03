@@ -13,7 +13,7 @@ By the end of this tutorial, you will:
 1. Have experience in working with the Zoe App framework
 1. Become familiar with one of the Zoe App widgets: the grid widget
 
-**Note: This tutorial assumes you already have a Giza installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/gizafoundation/zlux-example-server) before continuing.
+**Note: This tutorial assumes you already have a Giza installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/gizafoundation/zlux-example-server) before continuing.**
 
 So, let's get started!
 
