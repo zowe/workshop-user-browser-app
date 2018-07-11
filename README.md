@@ -223,7 +223,7 @@ Let's set up our system to automatically perform these steps every time we make 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zoe App Server.
 
 ### Adding Your App to the Desktop
-At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zoe instance. We'll at this to our own Zoe instance. First, ensure that the Zoe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
+At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zoe instance. We'll add this to our own Zoe instance. First, ensure that the Zoe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
 
 Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
 
