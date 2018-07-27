@@ -40,7 +40,7 @@ Let's start by creating this file.
 
 Make a file, **pluginDefinition.json**, at the root of the **workshop-user-browser-app** folder.
 The file should contain the following:
-```
+```json
 {
   "identifier": "org.openmainframe.zoe.workshop-user-browser",
   "apiVersion": "0.8.1",
@@ -85,7 +85,7 @@ At first, let's just build a shell of an App that can display some simple conten
 Fill in each file with the following contents.
 
 **userbrowser.module.ts**
-```
+```typescript
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -103,7 +103,7 @@ export class UserBrowserModule { }
 ```
 
 **userbrowser-component.html**
-```
+```html
 <div class="parent col-11" id="userbrowserPluginUI">
 {{simpleText}}
 </div>
@@ -114,7 +114,7 @@ export class UserBrowserModule { }
 ```
 
 **userbrowser-component.ts**
-```
+```typescript
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, Inject, SimpleChange } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response} from '@angular/http';
@@ -164,7 +164,7 @@ Before we're ready to use it however, we have to transpile the typescript and pa
 
 Let's create a **package.json** file within `workshop-user-browser-app/webClient`.
 While a package.json can be created through other means such as `npm init` and packages can be added via commands such as `npm install --save-dev typescript@2.8.3`, we'll opt to save time by just pasting these contents in:
-```
+```json
 {
   "name": "workshop-user-browser",
   "version": "0.0.1",
@@ -223,12 +223,12 @@ Let's set up our system to automatically perform these steps every time we make 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zoe App Server.
 
 ### Adding Your App to the Desktop
-At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zoe instance. We'll at this to our own Zoe instance. First, ensure that the Zoe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
+At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zoe instance. We'll add this to our own Zoe instance. First, ensure that the Zoe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
 
 Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
 
 Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmainframe.zoe.workshop-user-browser.json`, with these contents:
-```
+```json
 {
   "identifier": "org.openmainframe.zoe.workshop-user-browser",
   "pluginLocation": "../../workshop-user-browser-app"
@@ -260,7 +260,7 @@ To demonstrate the use of a Dataservice, we'll add one to this App. The App need
 1. Create a file, `workshop-user-browser-app/nodeServer/ts/tablehandler.ts`
 Add the following contents:
 
-```
+```typescript
 import { Response, Request } from "express";
 import * as table from "./usertable";
 import { Router } from "express-serve-static-core";
@@ -307,7 +307,7 @@ This is boilerplate for making a Dataservice. We lightly wrap ExpressJS Routers 
 Let's move beyond hello world, and access this user table.
 
 1. Within `workshop-user-browser-app/nodeServer/ts/tablehandler.ts`, add a function for returning the rows of the user table.
-```
+```typescript
 const MY_VERSION = '0.0.1';
 const METADATA_SCHEMA_VERSION = "1.0";
 function respondWithRows(rows: Array<Array<string>>, res: Response):void {
@@ -338,7 +338,7 @@ Because we reference the usertable file via import, we are able to refer to its 
 This **`respondWithRows`** function expects an array of rows, so we'll improve the Router to call this function with some rows so that we can present them back to the user.
 
 2. Update the **UserTableDataservice** constructor, modifying and expanding upon the Router
-```
+```typescript
   constructor(context: any){
     this.context = context;
     let router = express.Router();
@@ -376,7 +376,7 @@ Now that the Dataservice is made, we need to add it to our Plugin's defintion so
 1. Invoke the NPM build process, `npm run-script start`
     1. If there are any errors, go back to [building the dataservice](#building-your-first-dataservice) and make sure the files look correct.
 1. Edit `workshop-user-browser-app/pluginDefinition.json`, adding a new attribute which declares Dataservices.
-```
+```json
 "dataServices": [
     {
       "type": "router",
@@ -389,7 +389,7 @@ Now that the Dataservice is made, we need to add it to our Plugin's defintion so
 ],
 ```
 Your full pluginDefinition.json should now be:
-```
+```json
 {
   "identifier": "org.openmainframe.zoe.workshop-user-browser",
   "apiVersion": "0.8.1",
@@ -433,7 +433,7 @@ Now that you can get this data from the server's new REST API, we need to make i
 ### Adding your Dataservice to the App
  Let's make some edits to **userbrowser-component.ts**, replacing the **UserBrowserComponent** Class's **ngOnInit** method with a call to get the user table, and defining ngAfterViewInit:
 
-```
+```typescript
   ngOnInit(): void {
     this.resultNotReady = true;
     this.log.info(`Calling own dataservice to get user listing for filter=${JSON.stringify(this.filter)}`);
@@ -476,7 +476,7 @@ Now that you can get this data from the server's new REST API, we need to make i
 ```
 
 You may have noticed that we're referring to several instance variables that we haven't declared yet. Let's add those within the **UserBrowserComponent** Class too, above the constructor.
-```
+```typescript
   private showGrid: boolean = false;
   private columnMetaData: any = null;
   private unfilteredRows: any = null;
@@ -496,7 +496,7 @@ When **ngOnInit** runs, it will call out to the REST Dataservice and put the tab
 If you inspect `package.json` in the **webClient** folder, you'll see that we've already included @zlux/grid as a dependency - as a link to one of the Zoe github repositories, so it should have been pulled into the **node_modules** folder during the `npm install` operation. We just need to include it in the Angular code to make use of it. This comes in two steps:
 
 1. Edit **webClient/src/app/userbrowser.module.ts**, adding import statements for the zlux widgets above and within the @NgModule statement:
-```
+```typescript
 import { ZluxGridModule } from '@zlux/grid';
 import { ZluxPopupWindowModule, ZluxButtonModule } from '@zlux/widgets'
 //...
@@ -506,7 +506,7 @@ imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule, ZluxGridMo
 ```
 
 The full file should now be:
-```
+```typescript
 *
   This Angular module definition will pull all of your Angular files together to form a coherent App
 */
@@ -530,7 +530,7 @@ export class UserBrowserModule { }
 ```
 
 2. Edit **userbrowser-component.html** within the same folder. Previously, it was just meant for presenting a Hello World message, so we should add some style to accomodate the zlux-grid element we will also add to this template via a tag.
-```
+```html
 <!-- In this HTML file, an Angular Template should be placed that will work together with your Angular Component to make a dynamic, modern UI -->
 
 <div class="parent col-11" id="userbrowserPluginUI">
@@ -599,7 +599,7 @@ In either case, the App framework provides Actions as the objects to perform the
 
 We've already done the work of setting up the App's HTML and Angular definitions, so in order to make our App compatible with App-to-App communication, it only needs to listen for, act upon, and issue Zoe App Actions. Let's make edits to the typescript component to do that. Edit the **UserBrowserComponent** Class's constructor within **userbrowser-component.ts** in order to listen for the launch context:
 
-```
+```typescript
   constructor(
     private element: ElementRef,
     private http: Http,
@@ -637,7 +637,7 @@ We've already done the work of setting up the App's HTML and Angular definitions
 
 Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which is a web-framework-independent way to allow the Zoe Apps to register for event listening of Actions.
 
-```
+```typescript
   /* 
   I expect a JSON here, but the format can be specific depending on the Action - see the Starter App to see the format that is sent for the Workshop: 
   https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
@@ -694,12 +694,12 @@ We're close to finished now - the App can vizualize data from a REST API, and ca
 This time, we will edit **provideZLUXDispatcherCallbacks** to issue Actions rather than to listen for them. We need to target the Starter App, since it is the App that expects to receive a message about which employees should be assigned a task. If that App is given an employee listing that contains employees with the wrong job titles, the operation will be rejected as invalid, so we can ensure that we get the right result through a combination of filtering and sending a subset of the filtered users back to the starter App.
 
 Add a private instance variable to the **UserBrowserComponent** Class.
-```
+```typescript
  private submitSelectionAction: ZLUX.Action; 
 ```
 
 Then, create the Action template within the constructor
-```
+```typescript
     this.submitSelectionAction = RocketMVD.dispatcher.makeAction(
       "org.openmainframe.zoe.workshop-user-browser.actions.submitselections",      
       "Sorts user table in App which has it",
@@ -714,7 +714,7 @@ So, we've made an Action which targets an open window of the Starter App, and pr
 We'll populate this object for the message to send to the App by getting the results from ZLUX Grid (`this.selectedRows` will be populated from `this.onTableSelectionChange`).
 
 For the final change to this file, add a new method to the Class:
-```
+```typescript
   submitSelectedUsers() {
     let plugin = RocketMVD.PluginManager.getPlugin("org.openmainframe.zoe.workshop-starter");
     if (!plugin) {
@@ -732,7 +732,7 @@ For the final change to this file, add a new method to the Class:
 ```
 
 And we'll invoke this via a button click action, which we will add into the Angular template, **userbrowser-component.html**, by changing the button tag for "Submit Selected Users" to:
-```
+```html
 <button type="button" class="wide-button btn btn-default" (click)="submitSelectedUsers()" value="Send">
 ```
 
