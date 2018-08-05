@@ -42,8 +42,8 @@ Make a file, **pluginDefinition.json**, at the root of the **workshop-user-brows
 The file should contain the following:
 ```json
 {
-  "identifier": "org.openmainframe.zoe.workshop-user-browser",
-  "apiVersion": "0.8.1",
+  "identifier": "org.openmainframe.zowe.workshop-user-browser",
+  "apiVersion": "1.0.0",
   "pluginVersion": "0.0.1",
   "pluginType": "application",
   "webContent": {
@@ -67,7 +67,7 @@ The file should contain the following:
 You might wonder why we chose the particular values that are put into this file. A description of each can again be found [in the wiki](https://github.com/gizafoundation/zlux/wiki/Zlux-Plugin-Definition-&-Structure).
 
 Of the many attributes here, you should be aware of the following:
-* Our App has the unique identifier of `org.openmainframe.zoe.workshop-user-browser`, which can be used to refer to it when running Zoe
+* Our App has the unique identifier of `org.openmainframe.zowe.workshop-user-browser`, which can be used to refer to it when running Zoe
 * The App has a `webContent` attribute, because it will have a UI component visible in a browser.
     * The `webContent` section states that the App's code will conform to Zoe's Angular App structure, due to it stating `"framework": "angular2"`
     * The App has certain characteristics that the user will see, such as:
@@ -163,53 +163,47 @@ At this time, we've made the source for a Zoe App that should open up in the Des
 Before we're ready to use it however, we have to transpile the typescript and package the App. This will require a few build tools first. We'll make an NPM package in order to facilitate this.
 
 Let's create a **package.json** file within `workshop-user-browser-app/webClient`.
-While a package.json can be created through other means such as `npm init` and packages can be added via commands such as `npm install --save-dev typescript@2.8.3`, we'll opt to save time by just pasting these contents in:
+While a package.json can be created through other means such as `npm init` and packages can be added via commands such as `npm install --save-dev typescript@2.9.0`, we'll opt to save time by just pasting these contents in:
 ```json
 {
   "name": "workshop-user-browser",
   "version": "0.0.1",
   "scripts": {
     "start": "webpack --progress --colors --watch",
-    "build": "webpack --colors",
+    "build": "webpack --progress --colors",
     "lint": "tslint -c tslint.json \"src/**/*.ts\""
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^4.0.0",
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/forms": "^4.0.0",
-    "@angular/http": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
-    "@angular/router": "^4.0.0",
-    "brace": "^0.10.0",
-    "copy-webpack-plugin": "^4.0.1",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.4.2",
-    "webpack-config": "^7.2.1",
-    "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.1.1",
-    "@angular/compiler-cli": "^4.0.0",
-    "@zlux/grid": "git+ssh://git@github.com:gizafoundation/zlux-grid.git",
-    "@zlux/widgets": "git+ssh://git@github.com:gizafoundation/zlux-widgets.git",
-    "angular2-template-loader": "^0.6.2",
-    "css-loader": "^0.28.4",
-    "exports-loader": "^0.7.0",
-    "file-loader": "^1.1.11",
-    "html-loader": "^0.4.5",
-    "json-loader": "^0.5.7",
-    "source-map-loader": "^0.2.3",
-    "svg-sprite-loader": "^3.7.3",
-    "ts-loader": "^2.2.0",
-    "ts-node": "~3.0.4",
-    "tslint": "~5.3.2",
-    "typescript": "^2.8.3",
-    "url-loader": "^1.0.1",
-    "webpack": "^2.6.1"
+    "@angular/animations": "~6.0.9",
+    "@angular/common": "~6.0.9",
+    "@angular/compiler": "~6.0.9",
+    "@angular/core": "~6.0.9",
+    "@angular/forms": "~6.0.9",
+    "@angular/http": "~6.0.9",
+    "@angular/platform-browser": "~6.0.9",
+    "@angular/platform-browser-dynamic": "~6.0.9",
+    "@angular/router": "~6.0.9",
+    "@zlux/grid": "git+https://github.com/gizafoundation/zlux-grid.git",
+    "@zlux/widgets": "git+https://github.com:gizafoundation/zlux-widgets.git",
+    "angular2-template-loader": "~0.6.2",
+    "copy-webpack-plugin": "~4.5.2",
+    "core-js": "~2.5.7",
+    "css-loader": "~1.0.0",
+    "exports-loader": "~0.7.0",
+    "file-loader": "~1.1.11",
+    "html-loader": "~0.5.5",
+    "rxjs": "~6.2.2",
+    "rxjs-compat": "~6.2.2",
+    "source-map-loader": "~0.2.3",
+    "ts-loader": "~4.4.2",
+    "tslint": "~5.10.0",
+    "typescript": "~2.9.0",
+    "webpack": "~4.0.0",
+    "webpack-config": "~7.5.0",
+    "zone.js": "~0.8.26"
   }
 }
 ```
@@ -227,10 +221,10 @@ At this point, your workshop-user-browser-app folder contains files for an App t
 
 Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
 
-Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmainframe.zoe.workshop-user-browser.json`, with these contents:
+Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmainframe.zowe.workshop-user-browser.json`, with these contents:
 ```json
 {
-  "identifier": "org.openmainframe.zoe.workshop-user-browser",
+  "identifier": "org.openmainframe.zowe.workshop-user-browser",
   "pluginLocation": "../../workshop-user-browser-app"
 }
 ```
@@ -324,7 +318,7 @@ function respondWithRows(rows: Array<Array<string>>, res: Response):void {
   
   
   let responseBody = {
-    "_docType": "org.openmainframe.zoe.workshop-user-browser.user-table",
+    "_docType": "org.openmainframe.zowe.workshop-user-browser.user-table",
     "_metaDataVersion": MY_VERSION,
     "metadata": table.metadata,
     "resultMetaDataSchemaVersion": "1.0",
@@ -391,8 +385,8 @@ Now that the Dataservice is made, we need to add it to our Plugin's defintion so
 Your full pluginDefinition.json should now be:
 ```json
 {
-  "identifier": "org.openmainframe.zoe.workshop-user-browser",
-  "apiVersion": "0.8.1",
+  "identifier": "org.openmainframe.zowe.workshop-user-browser",
+  "apiVersion": "1.0.0",
   "pluginVersion": "0.0.1",
   "pluginType": "application",
   "dataServices": [
@@ -425,7 +419,7 @@ Your full pluginDefinition.json should now be:
 There's a few interesting attributes about the Dataservice we have specified here. First is that it is listed as `type: router`, which is because there are different types of Dataservices that can be made to suit the need. Second, the **name** is **table**, which determines both the name seen in logs but also the URL this can be accessed at. Finally, **fileName** and **routerFactory** point to the file within `workshop-user-browser-app/lib` where the code can be invoked, and the function that returns the ExpressJS Router, respectively.
 
 4. [Restart the server](#adding-your-app-to-the-desktop) (as was done when adding the App initially) to load this new Dataservice. This is not always needed but done here for educational purposes.
-5. Access `https://host:port/ZLUX/plugins/org.openmainframe.zoe.workshop-user-browser/services/table/` to see the Dataservice in action. It should return all the rows in the user table, as you did a GET to the root / URL that we just coded.
+5. Access `https://host:port/ZLUX/plugins/org.openmainframe.zowe.workshop-user-browser/services/table/` to see the Dataservice in action. It should return all the rows in the user table, as you did a GET to the root / URL that we just coded.
 
 ## Adding your First Widget
 Now that you can get this data from the server's new REST API, we need to make improvements to the web content of the App to visualize this. This means not only calling this API from the App, but presenting it in a way that is easy to read and extract info from.
@@ -701,11 +695,11 @@ Add a private instance variable to the **UserBrowserComponent** Class.
 Then, create the Action template within the constructor
 ```typescript
     this.submitSelectionAction = RocketMVD.dispatcher.makeAction(
-      "org.openmainframe.zoe.workshop-user-browser.actions.submitselections",      
+      "org.openmainframe.zowe.workshop-user-browser.actions.submitselections",      
       "Sorts user table in App which has it",
       RocketMVD.dispatcher.constants.ActionTargetMode.PluginFindAnyOrCreate,
       RocketMVD.dispatcher.constants.ActionType.Message,
-      "org.openmainframe.zoe.workshop-starter",
+      "org.openmainframe.zowe.workshop-starter",
       {data: {op:'deref',source:'event',path:['data']}}
 );
 ```
@@ -716,7 +710,7 @@ We'll populate this object for the message to send to the App by getting the res
 For the final change to this file, add a new method to the Class:
 ```typescript
   submitSelectedUsers() {
-    let plugin = RocketMVD.PluginManager.getPlugin("org.openmainframe.zoe.workshop-starter");
+    let plugin = RocketMVD.PluginManager.getPlugin("org.openmainframe.zowe.workshop-starter");
     if (!plugin) {
       this.log.warn(`Cannot request Workshop Starter App... It was not in the current environment!`);
       return;
