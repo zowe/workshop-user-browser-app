@@ -1,0 +1,31 @@
+{
+  "identifier": "org.openmainframe.zowe.workshop-user-browser",
+  "apiVersion": "1.0.0",
+  "pluginVersion": "0.0.1",
+  "pluginType": "application",
+  "dataServices": [
+      {
+        "type": "router",
+        "name": "table",
+        "serviceLookupMethod": "external",
+        "fileName": "tablehandler.js",
+        "routerFactory": "tableRouter",
+        "dependenciesIncluded": true
+      }
+  ],
+  "webContent": {
+    "framework": "angular2",
+    "launchDefinition": {
+      "pluginShortNameKey": "userBrowser",
+      "pluginShortNameDefault": "User Browser",
+      "imageSrc": "assets/icon.png"
+    },
+    "descriptionKey": "userBrowserDescription",
+    "descriptionDefault": "Browse Employees in System",
+    "isSingleWindowApp": true,
+    "defaultWindowStyle": {
+      "width": 1300,
+      "height": 500
+    }
+  }
+}
