@@ -18,7 +18,7 @@ By the end of this tutorial, you will:
 1. Have experience in working with the Zowe App framework
 1. Become familiar with one of the Zowe App widgets: the grid widget
 
-**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/gizafoundation/zlux-example-server) before continuing.**
+**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/zowe/zlux-example-server) before continuing.**
 
 So, let's get started!
 
@@ -37,7 +37,7 @@ So, let's get started!
     1. [Calling back to the Starter App](#calling-back-to-the-starter-app)
 
 ## Constructing an App Skeleton
-If you look within this repository, you'll see that a few boilerplate files already exist to help you get your first App running quickly. The structure of this repository follows the guidelines for Zowe App filesystem layout, which you can read more about [on this wiki](https://github.com/gizafoundation/zlux/wiki/ZLUX-App-filesystem-structure) if you need.
+If you look within this repository, you'll see that a few boilerplate files already exist to help you get your first App running quickly. The structure of this repository follows the guidelines for Zowe App filesystem layout, which you can read more about [on this wiki](https://github.com/zowe/zlux/wiki/ZLUX-App-filesystem-structure) if you need.
 
 ### Defining your first Plugin
 So, where do you start when making an App? In the Zowe framework, An App is a Plugin of type Application. Every Plugin is bound by their **pluginDefinition.json** file, which describes what properties it has.
@@ -69,7 +69,7 @@ The file should contain the following:
 }
 ```
 
-You might wonder why we chose the particular values that are put into this file. A description of each can again be found [in the wiki](https://github.com/gizafoundation/zlux/wiki/Zlux-Plugin-Definition-&-Structure).
+You might wonder why we chose the particular values that are put into this file. A description of each can again be found [in the wiki](https://github.com/zowe/zlux/wiki/Zlux-Plugin-Definition-&-Structure).
 
 Of the many attributes here, you should be aware of the following:
 * Our App has the unique identifier of `org.openmainframe.zowe.workshop-user-browser`, which can be used to refer to it when running Zowe
@@ -191,8 +191,8 @@ While a package.json can be created through other means such as `npm init` and p
     "@angular/platform-browser": "~6.0.9",
     "@angular/platform-browser-dynamic": "~6.0.9",
     "@angular/router": "~6.0.9",
-    "@zlux/grid": "git+https://github.com/gizafoundation/zlux-grid.git",
-    "@zlux/widgets": "git+https://github.com:gizafoundation/zlux-widgets.git",
+    "@zlux/grid": "git+https://github.com/zowe/zlux-grid.git",
+    "@zlux/widgets": "git+https://github.com:zowe/zlux-widgets.git",
     "angular2-template-loader": "~0.6.2",
     "copy-webpack-plugin": "~4.5.2",
     "core-js": "~2.5.7",
@@ -235,7 +235,7 @@ Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmain
 }
 ```
 
-When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/gizafoundation/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
+When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/zowe/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
 
 You could place the JSON directly into that location, but the recommended way to place content into the deploy area is via running the server deployment process.
 Simply:
@@ -253,7 +253,7 @@ Do you see your Hello World message from [this earlier step?](#constructing-a-si
 
 
 ## Building your First Dataservice
-An App can have one or more [Dataservices](https://github.com/gizafoundation/zlux/wiki/ZLUX-Dataservices). A Dataservice is a REST or Websocket endpoint that can be added to the Zowe App Server. 
+An App can have one or more [Dataservices](https://github.com/zowe/zlux/wiki/ZLUX-Dataservices). A Dataservice is a REST or Websocket endpoint that can be added to the Zowe App Server. 
 
 To demonstrate the use of a Dataservice, we'll add one to this App. The App needs to display a list of users, filtered by some value. Ordinarily, this sort of data would be contained within a database, where you can get rows in bulk and filter them in some manner. Retrieval of database contents, likewise, is a task that is easily representable via a REST API, so let's make one.
 
@@ -617,7 +617,7 @@ We've already done the work of setting up the App's HTML and Angular definitions
     this.log.info(`Launch metadata provided=${JSON.stringify(launchMetadata)}`);
     if (launchMetadata != null && launchMetadata.data) {
     /* The message will always be an Object, but format can be specific. The format we are using here is in the Starter App: 
-      https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L177
+      https://github.com/zowe/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L177
     */    
       switch (launchMetadata.data.type) {
       case 'load':
@@ -640,7 +640,7 @@ Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which i
 ```typescript
   /* 
   I expect a JSON here, but the format can be specific depending on the Action - see the Starter App to see the format that is sent for the Workshop: 
-  https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
+  https://github.com/zowe/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
   */
   zluxOnMessage(eventContext: any): Promise<any> {
     return new Promise((resolve,reject)=> {
