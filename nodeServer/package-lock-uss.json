@@ -1,8 +1,4 @@
 {
-  "RocketSoftwareCopyright_Header" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""],
   "name": "workshop-user-browser-app-ds",
   "version": "0.0.1",
   "lockfileVersion": 1,
@@ -74,8 +70,4 @@
       "dev": true
     }
   }
-  ,"RocketSoftwareCopyright_Footer" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""]  
 }

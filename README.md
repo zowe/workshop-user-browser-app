@@ -1,5 +1,10 @@
-© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
-ROCKET SOFTWARE, INC. CONFIDENTIAL
+This program and the accompanying materials are
+made available under the terms of the Eclipse Public License v2.0 which accompanies
+this distribution, and is available at https://www.eclipse.org/legal/epl-v20.html
+
+SPDX-License-Identifier: EPL-2.0
+
+Copyright Contributors to the Zowe Project.
 # User Browser Workshop App
 
 This repository acts as a tutorial, intended as a workshop session, which will teach you how to develop your own Zoe App.
@@ -410,5 +415,11 @@ Check that the App builds successfully, and if so, you've built the App for the 
     
 And that's it! Looking back at the beginning of this document, you should notice that we've covered all aspects of App building - REST APIs, persistent settings storage, Creating Angular Apps and using Widgets within them, as well as having one App communicate with another. Hopefully you have learned a lot about App building from this experience, but if you have questions or want to learn more, please reach out to those in the Giza Foundation so that we can assist.
 
-© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.
-ROCKET SOFTWARE, INC. CONFIDENTIAL
+
+This program and the accompanying materials are
+made available under the terms of the Eclipse Public License v2.0 which accompanies
+this distribution, and is available at https://www.eclipse.org/legal/epl-v20.html
+
+SPDX-License-Identifier: EPL-2.0
+
+Copyright Contributors to the Zowe Project.

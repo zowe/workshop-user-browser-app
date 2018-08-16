@@ -4,14 +4,14 @@
   "pluginVersion": "0.0.1",
   "pluginType": "application",
   "dataServices": [
-      {
-        "type": "router",
-        "name": "table",
-        "serviceLookupMethod": "external",
-        "fileName": "tablehandler.js",
-        "routerFactory": "tableRouter",
-        "dependenciesIncluded": true
-      }
+    {
+      "type": "router",
+      "name": "table",
+      "serviceLookupMethod": "external",
+      "fileName": "tablehandler.js",
+      "routerFactory": "tableRouter",
+      "dependenciesIncluded": true
+    }
   ],
   "webContent": {
     "framework": "angular2",

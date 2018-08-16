@@ -1,23 +1,15 @@
 {
-  "RocketSoftwareCopyright_Header" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""],
-    "compileOnSave": true,
-    "include": [
-        "ts/*.ts"
-    ],
-    "compilerOptions": {
-        "outDir": "../lib",
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "types": [
-          "node",
-          "express"
-        ]
-    }
-  ,"RocketSoftwareCopyright_Footer" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""]
+  "compileOnSave": true,
+  "include": [
+    "ts/*.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "../lib",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "types": [
+      "node",
+      "express"
+    ]
+  }
 }

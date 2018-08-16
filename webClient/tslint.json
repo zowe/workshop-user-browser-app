@@ -1,13 +1,5 @@
 {
-  "RocketSoftwareCopyright_Header" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""],
   "extends": [
-    "../../zlux-app-manager/virtual-desktop/plugin-config/tslint.base.json" 
+    "../../zlux-app-manager/virtual-desktop/plugin-config/tslint.base.json"
   ]
-  ,"RocketSoftwareCopyright_Footer" : [
-    "© 2014-2018 Rocket Software, Inc. or its affiliates. All Rights Reserved.",
-    "ROCKET SOFTWARE, INC. CONFIDENTIAL",
-    ""]
 }
