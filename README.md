@@ -7,7 +7,7 @@ SPDX-License-Identifier: EPL-2.0
 Copyright Contributors to the Zowe Project.
 # User Browser Workshop App
 
-This repository acts as a tutorial, intended as a workshop session, which will teach you how to develop your own Zoe App.
+This repository acts as a tutorial, intended as a workshop session, which will teach you how to develop your own Zowe App.
 This README contains code snippets and descriptions that you can piece together to complete the App you will need to complete the tutorial.
 
 By the end of this tutorial, you will:
@@ -15,10 +15,10 @@ By the end of this tutorial, you will:
 1. Know how to create a Dataservice which implements a simple REST API
 1. Be introduced to Typescript programming
 1. Be introduced to simple Angular web development
-1. Have experience in working with the Zoe App framework
-1. Become familiar with one of the Zoe App widgets: the grid widget
+1. Have experience in working with the Zowe App framework
+1. Become familiar with one of the Zowe App widgets: the grid widget
 
-**Note: This tutorial assumes you already have a Giza installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/gizafoundation/zlux-example-server) before continuing.**
+**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/zowe/zlux-example-server) before continuing.**
 
 So, let's get started!
 
@@ -30,31 +30,31 @@ So, let's get started!
 1. [Adding your First Widget](#adding-your-first-widget)
     1. [Adding your Dataservice to the App](#adding-your-dataservice-to-the-app)
     1. [Introducing ZLUX Grid](#introducing-zlux-grid)
-1. [Adding Zoe App-to-App Communication](#adding-zoe-app-to-app-communication)
+1. [Adding Zowe App-to-App Communication](#adding-zowe-app-to-app-communication)
     1. [Calling back to the Starter App](#calling-back-to-the-starter-app)
 
 ## Constructing an App Skeleton
-If you look within this repository, you'll see that a few boilerplate files already exist to help you get your first App running quickly. The structure of this repository follows the guidelines for Zoe App filesystem layout, which you can read more about [on this wiki](https://github.com/gizafoundation/zlux/wiki/ZLUX-App-filesystem-structure) if you need.
+If you look within this repository, you'll see that a few boilerplate files already exist to help you get your first App running quickly. The structure of this repository follows the guidelines for Zowe App filesystem layout, which you can read more about [on this wiki](https://github.com/zowe/zlux/wiki/ZLUX-App-filesystem-structure) if you need.
 
 ### Defining your first Plugin
-So, where do you start when making an App? In the Zoe framework, An App is a Plugin of type Application. Every Plugin is bound by their **pluginDefinition.json** file, which describes what properties it has. For convenience, this file has already been made, and you can take a look at it within `workshop-user-browser-app`.
+So, where do you start when making an App? In the Zowe framework, An App is a Plugin of type Application. Every Plugin is bound by their **pluginDefinition.json** file, which describes what properties it has. For convenience, this file has already been made, and you can take a look at it within `workshop-user-browser-app`.
 
-You might wonder why we chose the particular values that are put into this file. A description of each can again be found [in the wiki](https://github.com/gizafoundation/zlux/wiki/Zlux-Plugin-Definition-&-Structure).
+You might wonder why we chose the particular values that are put into this file. A description of each can again be found [in the wiki](https://github.com/zowe/zlux/wiki/Zlux-Plugin-Definition-&-Structure).
 
 Of the many attributes here, you should be aware of the following:
-* Our App has the unique identifier of `org.openmainframe.zowe.workshop-user-browser`, which can be used to refer to it when running Zoe
+* Our App has the unique identifier of `org.openmainframe.zowe.workshop-user-browser`, which can be used to refer to it when running Zowe
 * The App has a `webContent` attribute, because it will have a UI component visible in a browser.
-    * The `webContent` section states that the App's code will conform to Zoe's Angular App structure, due to it stating `"framework": "angular2"`
+    * The `webContent` section states that the App's code will conform to Zowe's Angular App structure, due to it stating `"framework": "angular2"`
     * The App has certain characteristics that the user will see, such as:
         * The default window size (`defaultWindowStyle`), 
         * An App icon that we provided in `workshop-user-browser-app/webClient/src/assets/icon.png`, 
         * That we should see it in the browser as an App named `User Browser`, the value of `pluginShortNameDefault`.
         
 ### Constructing a Simple Angular UI
-Angular Apps for Zoe are structured such that the source code exists within `webClient/src/app`. In here, you can create modules, components, templates and services in whatever heirarchy desired. For the App we are making, we start with some simple files to accomplish a hello world of sorts.
+Angular Apps for Zowe are structured such that the source code exists within `webClient/src/app`. In here, you can create modules, components, templates and services in whatever heirarchy desired. For the App we are making, we start with some simple files to accomplish a hello world of sorts.
 
 ### Packaging Your Web App
-At this time, we've have the source for a Zoe App that should open up in the Desktop with a greeting to the planet.
+At this time, we've have the source for a Zowe App that should open up in the Desktop with a greeting to the planet.
 Before we're ready to use it however, we have to transpile the typescript and package the App. This will require a few build tools first, which we already have defined in the **package.json** file within `workshop-user-browser-app/webClient`.
 
 Let's set up our system to automatically perform build steps every time we make updates to the App.
@@ -62,10 +62,10 @@ Let's set up our system to automatically perform build steps every time we make 
 1. Execute `npm install`
 1. Execute `npm run-script start`
 
-OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zoe App Server.
+OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zowe App Server.
 
 ### Adding Your App to the Desktop
-At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zoe instance. We'll add this to our own Zoe instance. First, ensure that the Zoe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
+At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zowe instance. We'll add this to our own Zowe instance. First, ensure that the Zowe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
 
 Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
 
@@ -77,7 +77,7 @@ Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmain
 }
 ```
 
-When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/gizafoundation/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
+When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/zowe/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
 
 You could place the JSON directly into that location, but the recommended way to place content into the deploy area is via running the server deployment process.
 Simply:
@@ -159,7 +159,7 @@ Hopefully you are still running the command in the first command prompt, `npm ru
 ### Introducing ZLUX Grid
 When **ngOnInit** runs, it will call out to the REST Dataservice and put the table row results into our cache, but we haven't yet visualized this in any way. We need to improve our HTML a bit to do that, and rather than reinvent the wheel, we luckily have a table vizualization library we can rely on - **ZLUX Grid**
 
-If you inspect `package.json` in the **webClient** folder, you'll see that we've already included @zlux/grid as a dependency - as a link to one of the Zoe github repositories, so it should have been pulled into the **node_modules** folder during the `npm install` operation. We just need to include it in the Angular code to make use of it. This comes in two steps:
+If you inspect `package.json` in the **webClient** folder, you'll see that we've already included @zlux/grid as a dependency - as a link to one of the Zowe github repositories, so it should have been pulled into the **node_modules** folder during the `npm install` operation. We just need to include it in the Angular code to make use of it. This comes in two steps:
 
 1. Edit **webClient/src/app/userbrowser.module.ts**, adding import statements for the zlux widgets above and within the @NgModule statement:
 ```typescript
@@ -245,11 +245,11 @@ onTableSelectionChange(rows: any[]):void{
 
 The previous section, [Adding your Dataservice to the App](#adding-your-dataservice-to-the-app) set the variables that are fed into the ZLUX Grid widget, so at this point the App should be updated with the ability to present a list of users in a grid.
 
-If you are still running `npm run-script start` in a command prompt, it should now show that the App has been successfully built, and that means we are ready to see the results. Reload your browser's webpage and open the user browser App once more... Do you see the list of users in columns and rows that can be sorted and selected? If so, great, you've built a simple yet useful App within Zoe! Let's move on to the last portion of the App workshop where we hook the Starter App and the User Browser App together to accomplish a task.
+If you are still running `npm run-script start` in a command prompt, it should now show that the App has been successfully built, and that means we are ready to see the results. Reload your browser's webpage and open the user browser App once more... Do you see the list of users in columns and rows that can be sorted and selected? If so, great, you've built a simple yet useful App within Zowe! Let's move on to the last portion of the App workshop where we hook the Starter App and the User Browser App together to accomplish a task.
 
 
-## Adding Zoe App-to-App Communication
-Apps in Zoe can be useful and provide insight all by themselves, but a big part of using the Zoe Desktop is that Apps are able to keep track of and share context by user interaction in order to accomplish a complex task by simple and intuitive means by having the foreground App request an App best suited for a task to accomplish that task with some context as to the data & purpose.
+## Adding Zowe App-to-App Communication
+Apps in Zowe can be useful and provide insight all by themselves, but a big part of using the Zowe Desktop is that Apps are able to keep track of and share context by user interaction in order to accomplish a complex task by simple and intuitive means by having the foreground App request an App best suited for a task to accomplish that task with some context as to the data & purpose.
 
 In the case of this Workshop, we're trying to not just find a list of employees in a company (as was accomplished in the last step where the Grid was added and populated with the REST API), but to filter that list to find those employees who are best suited to the task we need done. So, our user browser App needs to be enhanced with two new abilities:
 * Filter the user list to show only those users that meet the filter
@@ -263,7 +263,7 @@ In either case, the App framework provides Actions as the objects to perform the
 * Open a new App window, where the message context is delivered in the form of a Launch Context
 * Message a particular, or any of the currently open instances of the target App
 
-We've already done the work of setting up the App's HTML and Angular definitions, so in order to make our App compatible with App-to-App communication, it only needs to listen for, act upon, and issue Zoe App Actions. Let's make edits to the typescript component to do that. Edit the **UserBrowserComponent** Class's constructor within **userbrowser-component.ts** in order to listen for the launch context:
+We've already done the work of setting up the App's HTML and Angular definitions, so in order to make our App compatible with App-to-App communication, it only needs to listen for, act upon, and issue Zowe App Actions. Let's make edits to the typescript component to do that. Edit the **UserBrowserComponent** Class's constructor within **userbrowser-component.ts** in order to listen for the launch context:
 
 ```typescript
   constructor(
@@ -283,7 +283,7 @@ We've already done the work of setting up the App's HTML and Angular definitions
     this.log.info(`Launch metadata provided=${JSON.stringify(launchMetadata)}`);
     if (launchMetadata != null && launchMetadata.data) {
     /* The message will always be an Object, but format can be specific. The format we are using here is in the Starter App: 
-      https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L177
+      https://github.com/zowe/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L177
     */    
       switch (launchMetadata.data.type) {
       case 'load':
@@ -301,12 +301,12 @@ We've already done the work of setting up the App's HTML and Angular definitions
 
 ```
 
-Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which is a web-framework-independent way to allow the Zoe Apps to register for event listening of Actions.
+Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which is a web-framework-independent way to allow the Zowe Apps to register for event listening of Actions.
 
 ```typescript
   /* 
   I expect a JSON here, but the format can be specific depending on the Action - see the Starter App to see the format that is sent for the Workshop: 
-  https://github.com/gizafoundation/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
+  https://github.com/zowe/workshop-starter-app/blob/master/webClient/src/app/workshopstarter-component.ts#L225
   */
   zluxOnMessage(eventContext: any): Promise<any> {
     return new Promise((resolve,reject)=> {
@@ -351,7 +351,7 @@ Then, add a new method on the Class, **provideZLUXDispatcherCallbacks**, which i
 ```
 
 
-At this point, the App should build successfully and upon reloading the Zoe page in your browser, you should see that if you open the Starter App (App with the green S), that clicking the "Find Users from Lookup Directory" button should open up the User Browser App with a smaller, filtered list of employees rather than the unfiltered list we see if opening the App manually.
+At this point, the App should build successfully and upon reloading the Zowe page in your browser, you should see that if you open the Starter App (App with the green S), that clicking the "Find Users from Lookup Directory" button should open up the User Browser App with a smaller, filtered list of employees rather than the unfiltered list we see if opening the App manually.
 We can also see that once this App has been opened, the Starter App's button, "Filter Results to Those Nearby", becomes enabled and we can click that to see the open User Browser App's listing become filtered even more, this time using the browsers [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation) to instruct the User Browser App to filter to those employees who are closest to you!
 
 ### Calling back to the Starter App
@@ -413,7 +413,7 @@ Check that the App builds successfully, and if so, you've built the App for the 
 1. Click the "Submit Selected Users" button on the User Browser App
     1. The Starter App should print a confirmation message indicating success
     
-And that's it! Looking back at the beginning of this document, you should notice that we've covered all aspects of App building - REST APIs, persistent settings storage, Creating Angular Apps and using Widgets within them, as well as having one App communicate with another. Hopefully you have learned a lot about App building from this experience, but if you have questions or want to learn more, please reach out to those in the Giza Foundation so that we can assist.
+And that's it! Looking back at the beginning of this document, you should notice that we've covered all aspects of App building - REST APIs, persistent settings storage, Creating Angular Apps and using Widgets within them, as well as having one App communicate with another. Hopefully you have learned a lot about App building from this experience, but if you have questions or want to learn more, please reach out to those in the Zowe Foundation so that we can assist.
 
 
 This program and the accompanying materials are
