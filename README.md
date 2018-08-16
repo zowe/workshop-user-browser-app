@@ -57,6 +57,7 @@ At this time, we've have the source for a Zowe App that should open up in the De
 Before we're ready to use it however, we have to transpile the typescript and package the App. This will require a few build tools first, which we already have defined in the **package.json** file within `workshop-user-browser-app/webClient`.
 
 Let's set up our system to automatically perform build steps every time we make updates to the App.
+1. Edit `workshop-user-browser-app/webClient/package.json` to add `"webpack-cli": "~3.0.0",` in the `devDependencies` object.
 1. Open up a command prompt to `workshop-user-browser-app/webClient`
 1. Execute `npm install`
 1. Execute `npm run-script start`
