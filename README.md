@@ -65,8 +65,8 @@ OK, after the first execution of the transpilation and packaging concludes, you 
 
 Now you're ready to run the server and see your App. If the server is not already running, you can start it via the following:
 1. `cd /zlux-example-server/bin`
-1. `./nodeServer.sh`
-1. Open your browser to `https://hostname:port`
+1. `nodeServer.bat -h rs01.rocketsoftware.com -P 12360` or `./nodeServer.sh` for unix.
+1. Open your browser to `http://localhost:8543` or `https://hostname:port` generally speaking.
 1. Login with your credentials
 1. Open the App on the bottom of the page with the green 'U' icon.
 
