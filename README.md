@@ -75,6 +75,14 @@ Do you see your Hello World message? If so, you're in good shape! Now, let's add
 ## Adding your First Widget
 Now that you can get this data from the server's new REST API, we need to make improvements to the web content of the App to visualize this. This means not only calling this API from the App, but presenting it in a way that is easy to read and extract info from.
 
+First, edit `workshop-user-browser-app/webClient/package.json` to add or edit the entries for `zlux-grid` and `zlux-widgets` as follows:
+```
+    "@zlux/grid": "git+https://github.com/zowe/zlux-grid.git",
+    "@zlux/widgets": "git+https://github.com/zowe/zlux-widgets.git",
+```
+
+Afterwards, you can run `npm install` in that directory once more in order to pull these widget libraries in for use.
+
 ### Adding your Dataservice to the App
  Let's make some edits to **userbrowser-component.ts**, replacing the **UserBrowserComponent** Class's **ngOnInit** method with a call to get the user table, and defining ngAfterViewInit:
 
