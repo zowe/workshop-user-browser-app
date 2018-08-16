@@ -26,7 +26,6 @@ So, let's get started!
     1. [Defining your first Plugin](#defining-your-first-plugin)
     1. [Constructing a Simple Angular UI](#constructing-a-simple-angular-ui)
     1. [Packaging Your Web App](#packaging-your-web-app)
-    1. [Adding Your App to the Desktop](#adding-your-app-to-the-desktop)
 1. [Adding your First Widget](#adding-your-first-widget)
     1. [Adding your Dataservice to the App](#adding-your-dataservice-to-the-app)
     1. [Introducing ZLUX Grid](#introducing-zlux-grid)
