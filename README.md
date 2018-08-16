@@ -64,34 +64,14 @@ Let's set up our system to automatically perform build steps every time we make 
 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zowe App Server.
 
-### Adding Your App to the Desktop
-At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zowe instance. We'll add this to our own Zowe instance. First, ensure that the Zowe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
-
-Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
-
-Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmainframe.zowe.workshop-user-browser.json`, with these contents:
-```json
-{
-  "identifier": "org.openmainframe.zowe.workshop-user-browser",
-  "pluginLocation": "../../workshop-user-browser-app"
-}
-```
-
-When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/zowe/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
-
-You could place the JSON directly into that location, but the recommended way to place content into the deploy area is via running the server deployment process.
-Simply:
-1. Open up a (second) command prompt to `zlux-build`
-1. `ant deploy`
-
-Now you're ready to run the server and see your App.
+Now you're ready to run the server and see your App. If the server is not already running, you can start it via the following:
 1. `cd /zlux-example-server/bin`
 1. `./nodeServer.sh`
 1. Open your browser to `https://hostname:port`
 1. Login with your credentials
 1. Open the App on the bottom of the page with the green 'U' icon.
 
-Do you see your Hello World message from [this earlier step?](#constructing-a-simple-angular-ui). If so, you're in good shape! Now, let's add some content to the App.
+Do you see your Hello World message? If so, you're in good shape! Now, let's add some content to the App.
 
 ## Adding your First Widget
 Now that you can get this data from the server's new REST API, we need to make improvements to the web content of the App to visualize this. This means not only calling this API from the App, but presenting it in a way that is easy to read and extract info from.
