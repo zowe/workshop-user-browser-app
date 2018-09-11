@@ -217,6 +217,7 @@ While a package.json can be created through other means such as `npm init` and p
 Now we're really ready to build.
 Let's set up our system to automatically perform these steps every time we make updates to the App.
 1. Open up a command prompt to `workshop-user-browser-app/webClient`
+1. Set the environment variable MVD_DESKTOP_DIR to the location of `zlux-app-manager/virtual-desktop`. Such as `set MVD_DESKTOP_DIR=../../zlux-app-manager/virtual-desktop`. This is needed whenever building individual App web code due to the core configuration files being located in **virtual-desktop**
 1. Execute `npm install`
 1. Execute `npm run-script start`
 
