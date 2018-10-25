@@ -62,6 +62,8 @@ The file should contain the following:
     "descriptionDefault": "Browse Employees in System",
     "isSingleWindowApp": true,
     "defaultWindowStyle": {
+      "x": 0,
+      "y": 0,
       "width": 1300,
       "height": 500
     }
@@ -382,7 +384,7 @@ Now that the Dataservice is made, we need to add it to our Plugin's defintion so
     {
       "type": "router",
       "name": "table",
-      "serviceLookupMethod": "external",
+      "initializerLookupMethod": "external",
       "fileName": "tablehandler.js",
       "routerFactory": "tableRouter",
       "dependenciesIncluded": true
@@ -400,7 +402,7 @@ Your full pluginDefinition.json should now be:
       {
         "type": "router",
         "name": "table",
-        "serviceLookupMethod": "external",
+        "initializerLookupMethod": "external",
         "fileName": "tablehandler.js",
         "routerFactory": "tableRouter",
         "dependenciesIncluded": true
@@ -417,6 +419,8 @@ Your full pluginDefinition.json should now be:
     "descriptionDefault": "Browse Employees in System",
     "isSingleWindowApp": true,
     "defaultWindowStyle": {
+      "x": 0,
+      "y": 0,
       "width": 1300,
       "height": 500
     }
