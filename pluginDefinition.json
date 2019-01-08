@@ -10,7 +10,8 @@
       "serviceLookupMethod": "external",
       "fileName": "tablehandler.js",
       "routerFactory": "tableRouter",
-      "dependenciesIncluded": true
+      "dependenciesIncluded": true,
+      "version": "1.0.0"
     }
   ],
   "webContent": {
