@@ -18,7 +18,7 @@ By the end of this tutorial, you will:
 1. Have experience in working with the Zowe App framework
 1. Become familiar with one of the Zowe App widgets: the grid widget
 
-**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/zowe/zlux-example-server) before continuing.**
+**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-app-server](https://github.com/zowe/zlux-app-server) before continuing.**
 
 So, let's get started!
 
@@ -65,7 +65,7 @@ Let's set up our system to automatically perform build steps every time we make 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zowe App Server.
 
 Now you're ready to run the server and see your App. If the server is not already running, you can start it via the following:
-1. `cd /zlux-example-server/bin`
+1. `cd /zlux-app-server/bin`
 1. `nodeServer.bat -h rs01.rocketsoftware.com -P 12360` or `./nodeServer.sh` for unix.
 1. Open your browser to `http://localhost:8543` or `https://hostname:port` generally speaking.
 1. Login with your credentials
@@ -91,7 +91,7 @@ Afterwards, you can run `npm install` in that directory once more in order to pu
   ngOnInit(): void {
     this.resultNotReady = true;
     this.log.info(`Calling own dataservice to get user listing for filter=${JSON.stringify(this.filter)}`);
-    let uri = this.filter ? RocketMVD.uriBroker.pluginRESTUri(this.pluginDefinition.getBasePlugin(), 'table', `${this.filter.type}/${this.filter.value}`) : RocketMVD.uriBroker.pluginRESTUri(this.pluginDefinition.getBasePlugin(), 'table',null);
+    let uri = this.filter ? ZoweZLUX.uriBroker.pluginRESTUri(this.pluginDefinition.getBasePlugin(), 'table', `${this.filter.type}/${this.filter.value}`) : ZoweZLUX.uriBroker.pluginRESTUri(this.pluginDefinition.getBasePlugin(), 'table',null);
     setTimeout(()=> {
     this.log.info(`Sending GET request to ${uri}`);
     this.http.get(uri).map(res=>res.json()).subscribe(
@@ -354,11 +354,11 @@ Add a private instance variable to the **UserBrowserComponent** Class.
 
 Then, create the Action template within the constructor
 ```typescript
-    this.submitSelectionAction = RocketMVD.dispatcher.makeAction(
+    this.submitSelectionAction = ZoweZLUX.dispatcher.makeAction(
       "org.openmainframe.zowe.workshop-user-browser.actions.submitselections",      
       "Sorts user table in App which has it",
-      RocketMVD.dispatcher.constants.ActionTargetMode.PluginFindAnyOrCreate,
-      RocketMVD.dispatcher.constants.ActionType.Message,
+      ZoweZLUX.dispatcher.constants.ActionTargetMode.PluginFindAnyOrCreate,
+      ZoweZLUX.dispatcher.constants.ActionType.Message,
       "org.openmainframe.zowe.workshop-starter",
       {data: {op:'deref',source:'event',path:['data']}}
 );
@@ -370,13 +370,13 @@ We'll populate this object for the message to send to the App by getting the res
 For the final change to this file, add a new method to the Class:
 ```typescript
   submitSelectedUsers() {
-    let plugin = RocketMVD.PluginManager.getPlugin("org.openmainframe.zowe.workshop-starter");
+    let plugin = ZoweZLUX.PluginManager.getPlugin("org.openmainframe.zowe.workshop-starter");
     if (!plugin) {
       this.log.warn(`Cannot request Workshop Starter App... It was not in the current environment!`);
       return;
     }
 
-    RocketMVD.dispatcher.invokeAction(this.submitSelectionAction,
+    ZoweZLUX.dispatcher.invokeAction(this.submitSelectionAction,
       {'data':{
          'type':'loadusers',
          'value':this.selectedRows
