@@ -18,7 +18,7 @@ By the end of this tutorial, you will:
 1. Have experience in working with the Zowe App framework
 1. Become familiar with one of the Zowe App widgets: the grid widget
 
-**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-example-server](https://github.com/zowe/zlux-example-server) before continuing.**
+**Note: This tutorial assumes you already have a Zowe installation ready to be run. If you do not, try setting one up via the README at [zlux-app-server](https://github.com/zowe/zlux-app-server) before continuing.**
 
 So, let's get started!
 
@@ -224,11 +224,11 @@ Let's set up our system to automatically perform these steps every time we make 
 OK, after the first execution of the transpilation and packaging concludes, you should have `workshop-user-browser-app/web` populated with files that can be served by the Zowe App Server.
 
 ### Adding Your App to the Desktop
-At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zowe instance. We'll add this to our own Zowe instance. First, ensure that the Zowe App server is not running. Then, navigate to the instance's root folder, `/zlux-example-server`.
+At this point, your workshop-user-browser-app folder contains files for an App that could be added to a Zowe instance. We'll add this to our own Zowe instance. First, ensure that the Zowe App server is not running. Then, navigate to the instance's root folder, `/zlux-app-server`.
 
 Within, you'll see a folder, **plugins**. Take a look at one of the files within the folder. You can see that these are JSON files with the attributes **identifier** and **pluginLocation**. These files are what we call **Plugin Locators**, since they point to a Plugin to be included into the server.
 
-Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmainframe.zowe.workshop-user-browser.json`, with these contents:
+Let's make one ourselves. Make a file `/zlux-app-server/plugins/org.openmainframe.zowe.workshop-user-browser.json`, with these contents:
 ```json
 {
   "identifier": "org.openmainframe.zowe.workshop-user-browser",
@@ -236,7 +236,7 @@ Let's make one ourselves. Make a file `/zlux-example-server/plugins/org.openmain
 }
 ```
 
-When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/zowe/zlux/wiki/Configuration-for-zLUX-Proxy-Server-&-ZSS#app-configuration). In our case, this is `/zlux-example-server/deploy/instance/ZLUX/plugins/`.
+When the server runs, it will check for these sorts of files in its `pluginsDir`, a location known to the server via its specification in the [server configuration file](https://github.com/zowe/zlux/wiki/Configuration-for-zlux-server-framework-&-ZSS#app-configuration). In our case, this is `/zlux-app-server/deploy/instance/ZLUX/plugins/`.
 
 You could place the JSON directly into that location, but the recommended way to place content into the deploy area is via running the server deployment process.
 Simply:
@@ -244,7 +244,7 @@ Simply:
 1. `ant deploy`
 
 Now you're ready to run the server and see your App.
-1. `cd /zlux-example-server/bin`
+1. `cd /zlux-app-server/bin`
 1. `./nodeServer.sh`
 1. Open your browser to `https://hostname:port`
 1. Login with your credentials
