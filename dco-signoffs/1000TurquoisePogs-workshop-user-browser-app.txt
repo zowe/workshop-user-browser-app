@@ -1,0 +1,13 @@
+I, 1000TurquoisePogs hereby sign-off-by all of my past commits to this repo subject to the Developer Certificate of Origin (DCO), Version 1.1. In the past I have used emails: 30730276+1000TurquoisePogs@users.noreply.github.com and 30730276+1000TurquoisePogs@users.noreply.github.com
+
+e97c66ce0f418976fca61afa12e1d300378bddc2 Update README.md
+
+zlux-example-server to zlux-app-server rename
+db1badf22d6c2881191893167e373b597d28b456 Update README.md
+
+Updates to plugindefinition content for semver versions & removal of x&y parameters which were never used.
+41ab85ace4023c5dfed1d3c88f67b387746116bf initial commit
+
+ca738f41fafd7037f17e32ace6cd3c2732affd6b Update README.md
+
+Plugin definition changes to conform to spec.
